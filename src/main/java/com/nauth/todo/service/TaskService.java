@@ -31,6 +31,15 @@ public class TaskService {
 	public void deleteTask(Long id) {
 		taskRepository.deleteById(id);
 	}
+	
+	public Task updateTask(Long id, Task task) {
+       
+        Optional<Task> optionalTask = taskRepository.findById(id);
+         	Task existingTask = optionalTask.get();
+            existingTask.setDescription(task.getDescription());
+            existingTask.setCompleted(task.getCompleted());
+            return taskRepository.save(existingTask);
+       
 
-
+}
 }
