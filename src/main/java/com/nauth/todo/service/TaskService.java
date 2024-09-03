@@ -1,5 +1,6 @@
 package com.nauth.todo.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,29 +29,49 @@ public class TaskService {
 	    }
 	
 
-	public List<Task> getAllTasksOrderedByPriority() {
-        return taskRepository.findAllOrderedByPriority();
-        
-	  }
-	
+	  public List<Task> getAllTasksOrderedByPriority() {
+	        List<Task> tasks = taskRepository.findAllOrderedByPriority();
+
+	        tasks.sort(Comparator.comparingInt(Task::getPriority).thenComparingLong(Task::getId));
+
+	        return tasks;
+	    }
 		
 	
 	public void deleteTask(Long id) {
 		 if (!taskRepository.existsById(id)) {
 			 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarea con el ID " + id + " no encontrada");
-		    }
+		    }	
 		    taskRepository.deleteById(id);
 	}
 	
-	public Task updateTask(Long id, Task task) {
-       
-        Optional<Task> optionalTask = taskRepository.findById(id);
-         	Task existingTask = optionalTask.get();
-            existingTask.setDescription(task.getDescription());
-            existingTask.setCompleted(task.getCompleted());
-            return taskRepository.save(existingTask);
-            
-    }
+	
+	 public Task updateTask(Long id, Task updatedTask) {
+	        
+	        Optional<Task> optionalTask = taskRepository.findById(id);
+	        
+	        if (optionalTask.isPresent()) {
+	            Task existingTask = optionalTask.get();
+	            
+	            if (updatedTask.getDescription() != null) {
+	                existingTask.setDescription(updatedTask.getDescription());
+	            }
+	            
+	            if (updatedTask.getCompleted() != null) {
+	                existingTask.setCompleted(updatedTask.getCompleted());
+	            }
+	            
+	            
+	            if (updatedTask.getPriority() != null) {
+	                existingTask.setPriority(updatedTask.getPriority());
+	            }
+	            
+	            return taskRepository.save(existingTask);
+	        } else {
+
+	            throw new RuntimeException("Task not found with id: " + id);
+	        }
+	 }
 	
 	 private void validatePriority(Integer priority) {
 	        if (priority == null || priority < 1 || priority > 3) {

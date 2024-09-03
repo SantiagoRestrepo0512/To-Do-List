@@ -23,8 +23,19 @@ public class Task {
 	
 	private Boolean completed;
 	
+	
+	
 	 @Column(nullable = true)
 	 private Integer priority;
+	 
+	 
+
+
+	 public Task(Long id, String name, int priority) {
+	        this.id = id;
+	        this.description = name;
+	        this.priority = priority;
+	    }
 
 	public Integer getPriority() {
 		return priority;
@@ -57,6 +68,7 @@ public class Task {
 	public void setCompleted(Boolean completed) {
 		this.completed = completed;
 	}
-
+	
+	
 
 }

@@ -35,7 +35,8 @@ public class TaskController {
         return taskService.getAllTasksOrderedByPriority();
     }
 	
-	@GetMapping("{id}")
+	
+	@GetMapping("/get/{id}")
 	public Task getTaskById(@PathVariable("id") Long id) {
 		return taskService.getTaskById(id);
 		
