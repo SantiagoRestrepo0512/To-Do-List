@@ -29,11 +29,12 @@ public class Task {
 	 private Integer priority;
 	 
 	 
+	 public Task() {
+	    }
 
-
-	 public Task(Long id, String name, int priority) {
+	 public Task(Long id, String description, int priority) {
 	        this.id = id;
-	        this.description = name;
+	        this.description = description;
 	        this.priority = priority;
 	    }
 
