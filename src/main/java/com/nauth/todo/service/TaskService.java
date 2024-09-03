@@ -16,17 +16,22 @@ public class TaskService {
 	private TaskRepository taskRepository;
 
 	public Task createTask(Task task) {
+		validatePriority(task.getPriority());
 		return taskRepository.save(task);
 	}
 	
-	public Task getTaskById(Long id) {
-		Optional<Task> optionalTask = taskRepository.findById(id);
-		return optionalTask.get();
-	}
+
+	 public Task getTaskById(Long id) {
+	        return taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task with ID " + id + " not found"));
+	    }
 	
+
 	public List<Task> getAllTasksOrderedByPriority() {
         return taskRepository.findAllOrderedByPriority();
-    }
+        
+	  }
+	
+		
 	
 	public void deleteTask(Long id) {
 		taskRepository.deleteById(id);
@@ -42,6 +47,11 @@ public class TaskService {
             
     }
 	
+	 private void validatePriority(Integer priority) {
+	        if (priority == null || priority < 1 || priority > 3) {
+	            throw new IllegalArgumentException("La prioridad debe estar en un rango de 1 a 3");
+	        }
 	
-	   
+	
+	 }
 }
