@@ -31,14 +31,13 @@ public class TaskController {
 		}
 	
 	@GetMapping
-	public List<Task> getAlltasks(){
-		return taskService.getAllTasks();
-		
-	}
+	public List<Task> getAllTasksOrderedByPriority() {
+        return taskService.getAllTasksOrderedByPriority();
+    }
 	
 	@GetMapping("{id}")
 	public Task getTaskById(@PathVariable("id") Long id) {
-		return taskService.getUserById(id);
+		return taskService.getTaskById(id);
 		
 	}
 	

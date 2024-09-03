@@ -19,14 +19,14 @@ public class TaskService {
 		return taskRepository.save(task);
 	}
 	
-	public Task getUserById(Long id) {
+	public Task getTaskById(Long id) {
 		Optional<Task> optionalTask = taskRepository.findById(id);
 		return optionalTask.get();
 	}
 	
-	public List<Task> getAllTasks(){
-		return taskRepository.findAll();
-	}
+	public List<Task> getAllTasksOrderedByPriority() {
+        return taskRepository.findAllOrderedByPriority();
+    }
 	
 	public void deleteTask(Long id) {
 		taskRepository.deleteById(id);
@@ -39,7 +39,9 @@ public class TaskService {
             existingTask.setDescription(task.getDescription());
             existingTask.setCompleted(task.getCompleted());
             return taskRepository.save(existingTask);
-       
-
-}
+            
+    }
+	
+	
+	   
 }
